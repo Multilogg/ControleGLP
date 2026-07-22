@@ -34,11 +34,26 @@
 
     </div>
 
-    <div class="linha">
+    <div class="contrato-partes-grid">
 
-        <div class="campo">
-            <label>Fornecedor</label>
-            <input type="text" id="txtFornecedor" placeholder="Informe o fornecedor">
+        <div class="contrato-cliente-fixo" aria-label="Cliente fixo do contrato">
+            <div class="contrato-parte-icone">
+                <i class="fa-solid fa-building"></i>
+            </div>
+            <div>
+                <span>Cliente do contrato</span>
+                <strong>Clia Campinas</strong>
+                <small>Definido automaticamente</small>
+            </div>
+            <i class="fa-solid fa-lock contrato-parte-lock" aria-hidden="true"></i>
+        </div>
+
+        <div class="campo contrato-fornecedor-campo">
+            <label for="txtFornecedor">Fornecedor</label>
+            <div class="campo-com-icone">
+                <i class="fa-solid fa-truck-field"></i>
+                <input type="text" id="txtFornecedor" placeholder="Informe o fornecedor">
+            </div>
         </div>
 
     </div>

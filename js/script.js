@@ -5,7 +5,7 @@ let unidadeSelecionada = localStorage.getItem("unidadeSelecionada") || "Campinas
 const supabaseConfig = window.SUPABASE_CONFIG || {};
 let bancoOnlineAtivo = false;
 let salvamentoOnlineTimer = null;
-const VERSAO_APP = "20260722-2";
+const VERSAO_APP = "20260722-3";
 
 function obterSupabaseConfigurado(){
 

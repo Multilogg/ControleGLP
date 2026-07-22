@@ -4488,3 +4488,116 @@ button{
         flex:0 0 48px;
     }
 }
+
+/* Composição visual das partes do contrato */
+.contrato-partes-grid{
+    display:grid;
+    grid-template-columns:minmax(280px,.8fr) minmax(320px,1.2fr);
+    gap:18px;
+    align-items:stretch;
+    margin-bottom:25px;
+}
+
+.contrato-cliente-fixo{
+    min-width:0;
+    min-height:82px;
+    display:grid;
+    grid-template-columns:46px minmax(0,1fr) auto;
+    align-items:center;
+    gap:14px;
+    padding:15px 16px;
+    border:1px solid #CFE0F2;
+    border-left:4px solid var(--azul);
+    border-radius:10px;
+    background:linear-gradient(135deg,#F7FBFF 0%,#EEF6FF 100%);
+}
+
+.contrato-parte-icone{
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    color:#FFFFFF;
+    background:linear-gradient(135deg,var(--azul),var(--teal));
+    box-shadow:0 10px 22px rgba(23,94,168,.2);
+}
+
+.contrato-cliente-fixo span,
+.contrato-cliente-fixo small{
+    display:block;
+    color:var(--texto-suave);
+    font-size:11px;
+    font-weight:800;
+}
+
+.contrato-cliente-fixo span{
+    margin-bottom:4px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+}
+
+.contrato-cliente-fixo strong{
+    display:block;
+    color:#0B1F36;
+    font-size:16px;
+    font-weight:900;
+    line-height:1.25;
+}
+
+.contrato-cliente-fixo small{
+    margin-top:4px;
+}
+
+.contrato-parte-lock{
+    color:#7A94B2;
+    font-size:13px;
+}
+
+.contrato-fornecedor-campo{
+    justify-content:center;
+}
+
+.campo-com-icone{
+    position:relative;
+}
+
+.campo-com-icone > i{
+    position:absolute;
+    left:15px;
+    top:50%;
+    z-index:1;
+    color:var(--azul);
+    transform:translateY(-50%);
+    pointer-events:none;
+}
+
+.campo-com-icone input{
+    width:100%;
+    min-height:50px;
+    padding-left:44px;
+    background:#FFFFFF;
+}
+
+@media (max-width:900px){
+    .contrato-partes-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media (max-width:420px){
+    .contrato-cliente-fixo{
+        grid-template-columns:42px minmax(0,1fr);
+        padding:14px;
+    }
+
+    .contrato-parte-icone{
+        width:42px;
+        height:42px;
+    }
+
+    .contrato-parte-lock{
+        display:none;
+    }
+}
