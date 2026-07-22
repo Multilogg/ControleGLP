@@ -5,7 +5,7 @@ let unidadeSelecionada = localStorage.getItem("unidadeSelecionada") || "Campinas
 const supabaseConfig = window.SUPABASE_CONFIG || {};
 let bancoOnlineAtivo = false;
 let salvamentoOnlineTimer = null;
-const VERSAO_APP = "20260722-4";
+const VERSAO_APP = "20260722-5";
 
 function obterSupabaseConfigurado(){
 
@@ -172,7 +172,8 @@ function atualizarIdentidadeTopo(pagina){
 
     if(!iconeTopo || !tituloTopo) return;
 
-    iconeTopo.className = "fa-solid fa-fire-flame-simple";
+    iconeTopo.className = "multilog-listras";
+    iconeTopo.innerHTML = "<i></i><i></i><i></i><i></i><i></i>";
     tituloTopo.textContent = "Controle GLP";
     document.title = "Controle GLP";
 

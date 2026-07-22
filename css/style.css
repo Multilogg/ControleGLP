@@ -5155,6 +5155,77 @@ aside button > i::before{
     box-shadow:0 7px 15px rgba(71,85,105,.12);
 }
 
+/* Identidade visual Multilog no cabecalho */
+.logo-simbolo{
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    color:#FFFFFF;
+    border:1px solid rgba(255,255,255,.28);
+    background:linear-gradient(145deg,#0A4D8C 0%,#1263A8 58%,#0F766E 100%);
+    box-shadow:
+        0 10px 22px rgba(10,77,140,.22),
+        inset 0 1px 0 rgba(255,255,255,.22);
+}
+
+.logo-simbolo::before{
+    content:none;
+    display:none;
+}
+
+.logo-simbolo::after{
+    z-index:-1;
+    right:-8px;
+    bottom:-9px;
+    width:26px;
+    height:26px;
+    background:rgba(255,255,255,.2);
+    filter:blur(7px);
+}
+
+#iconeSistemaTopo{
+    color:#FFFFFF !important;
+    font-size:19px;
+    filter:drop-shadow(0 2px 3px rgba(4,32,60,.22));
+}
+
+#iconeSistemaTopo::before{
+    color:#FFFFFF;
+}
+
+.multilog-listras{
+    position:absolute !important;
+    z-index:2;
+    top:41%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:22px;
+    height:28px;
+    display:flex !important;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    filter:drop-shadow(0 2px 3px rgba(4,32,60,.2));
+}
+
+.multilog-listras > i{
+    display:block !important;
+    width:16px !important;
+    height:3px !important;
+    min-height:3px;
+    margin:0 !important;
+    padding:0 !important;
+    border:0;
+    border-radius:1px;
+    background:#FFFFFF;
+    line-height:0 !important;
+}
+
+.multilog-listras > i::before{
+    content:none !important;
+}
+
 /* Composição visual das partes do contrato */
 .contrato-partes-grid{
     display:grid;
