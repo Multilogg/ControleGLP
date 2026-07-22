@@ -20,11 +20,26 @@
 
     <div class="form-conteudo">
 
+    <div class="contrato-cliente-fixo contrato-cliente-prioritario" aria-label="Cliente fixo do contrato">
+        <div class="contrato-parte-icone">
+            <i class="fa-solid fa-building"></i>
+        </div>
+        <div>
+            <span>Cliente principal</span>
+            <strong>Clia Campinas</strong>
+            <small>Aplicado automaticamente em todos os contratos</small>
+        </div>
+        <div class="contrato-cliente-selo">
+            <i class="fa-solid fa-circle-check"></i>
+            Cliente fixo
+        </div>
+    </div>
+
     <div class="linha">
 
         <div class="campo">
             <label>N&uacute;mero do Contrato</label>
-            <input type="text" id="txtContrato" placeholder="Ex.: 4600007570">
+            <input type="text" id="txtContrato" placeholder="Ex: 123456789">
         </div>
 
         <div class="campo">
@@ -34,31 +49,12 @@
 
     </div>
 
-    <div class="contrato-partes-grid">
+    <div class="contrato-dados-secundarios">
 
-        <div class="contrato-cliente-fixo" aria-label="Cliente fixo do contrato">
-            <div class="contrato-parte-icone">
-                <i class="fa-solid fa-building"></i>
-            </div>
-            <div>
-                <span>Cliente do contrato</span>
-                <strong>Clia Campinas</strong>
-                <small>Definido automaticamente</small>
-            </div>
-            <i class="fa-solid fa-lock contrato-parte-lock" aria-hidden="true"></i>
-        </div>
-
-        <div class="campo contrato-fornecedor-campo">
+        <div class="campo">
             <label for="txtFornecedor">Fornecedor</label>
-            <div class="campo-com-icone">
-                <i class="fa-solid fa-truck-field"></i>
-                <input type="text" id="txtFornecedor" placeholder="Informe o fornecedor">
-            </div>
+            <input type="text" id="txtFornecedor" placeholder="Ex: TRAZGAZ">
         </div>
-
-    </div>
-
-    <div class="linha">
 
         <div class="campo">
             <label>In&iacute;cio</label>

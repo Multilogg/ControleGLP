@@ -11,6 +11,8 @@
 
     <div class="card-contrato">
 
+        <div class="contrato-detalhes">
+
         <div class="card-titulo">
             <i class="fa-solid fa-file-contract"></i>
             Contrato Ativo
@@ -28,29 +30,62 @@
 
             <div>
                 <span>Fornecedor:</span>
-                <strong id="painelFornecedor">Ultragas</strong>
+                <strong id="painelFornecedor">TRAZGAZ</strong>
             </div>
         </div>
 
         <span class="statusAtivo">Ativo</span>
 
+        </div>
+
+        <div class="contrato-orcamento-bi">
+            <div class="contrato-orcamento-topo">
+                <span class="indicador-icone"><i class="fa-solid fa-wallet"></i></span>
+                <div>
+                    <small>Or&ccedil;amento do contrato</small>
+                    <span>Limite financeiro</span>
+                </div>
+            </div>
+            <strong id="dashOrcamento">R$ 0,00</strong>
+            <div class="contrato-orcamento-rodape">
+                <span><i class="fa-solid fa-circle-check"></i> Valor contratado</span>
+            </div>
+        </div>
+
     </div>
 
     <div class="indicadores">
 
-        <div class="card-indicador">
-            <span>Or&ccedil;amento</span>
-            <strong id="dashOrcamento">R$ 0,00</strong>
-        </div>
-
-        <div class="card-indicador">
-            <span>Utilizado</span>
+        <div class="card-indicador indicador-utilizado">
+            <div class="indicador-topo">
+                <div class="indicador-identidade">
+                    <span class="indicador-icone"><i class="fa-solid fa-chart-line"></i></span>
+                    <span>Utilizado</span>
+                </div>
+                <span class="indicador-badge">Consumo</span>
+            </div>
             <strong id="dashUtilizado">R$ 0,00</strong>
+            <div class="indicador-rodape">
+                <small>Consumo acumulado</small>
+                <span id="dashPercentualUtilizado">0%</span>
+            </div>
+            <div class="indicador-progresso"><i id="dashBarraUtilizado"></i></div>
         </div>
 
-        <div class="card-indicador">
-            <span>Saldo</span>
+        <div class="card-indicador indicador-saldo">
+            <div class="indicador-topo">
+                <div class="indicador-identidade">
+                    <span class="indicador-icone"><i class="fa-solid fa-piggy-bank"></i></span>
+                    <span>Saldo</span>
+                </div>
+                <span class="indicador-badge">Dispon&iacute;vel</span>
+            </div>
             <strong id="dashSaldo">R$ 0,00</strong>
+            <div class="indicador-rodape">
+                <small>Dispon&iacute;vel no contrato</small>
+                <span id="dashPercentualSaldo">0%</span>
+            </div>
+            <div class="indicador-progresso"><i id="dashBarraSaldo"></i></div>
         </div>
 
     </div>
@@ -84,19 +119,6 @@
         </div>
         <h2 id="dashTotalMovimentacoes">0</h2>
         <div class="metricas-por-contrato" id="dashMovimentacoesPorContrato"></div>
-    </div>
-
-</div>
-
-<div class="card-barra">
-
-    <div class="barra-topo">
-        <strong>Utiliza&ccedil;&atilde;o do contrato</strong>
-        <span id="percentualUso">0% utilizado</span>
-    </div>
-
-    <div class="barra">
-        <div id="barraUso"></div>
     </div>
 
 </div>

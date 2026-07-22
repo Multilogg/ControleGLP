@@ -5,7 +5,7 @@ let unidadeSelecionada = localStorage.getItem("unidadeSelecionada") || "Campinas
 const supabaseConfig = window.SUPABASE_CONFIG || {};
 let bancoOnlineAtivo = false;
 let salvamentoOnlineTimer = null;
-const VERSAO_APP = "20260722-3";
+const VERSAO_APP = "20260722-4";
 
 function obterSupabaseConfigurado(){
 
@@ -371,15 +371,20 @@ let movimentacaoEditando = null;
 let graficoMensal = null;
 let ultimoRelatorio = [];
 const CLIENTE_PADRAO = "Clia Campinas";
+const FORNECEDOR_PADRAO = "TRAZGAZ";
 
 inicializarApp();
 
 function normalizarContrato(contrato){
 
+    const fornecedorAtual = String(contrato.fornecedor || "").trim();
+
     return {
         ...contrato,
         cliente: CLIENTE_PADRAO,
-        fornecedor: contrato.fornecedor || "Ultragas",
+        fornecedor: !fornecedorAtual || fornecedorAtual.toLowerCase() === "ultragas"
+            ? FORNECEDOR_PADRAO
+            : fornecedorAtual,
         unidade: contrato.unidade || obterUnidadeAtual() || ""
     };
 
@@ -392,6 +397,16 @@ function obterClienteContrato(numeroContrato){
     });
 
     return contrato ? normalizarContrato(contrato).cliente : CLIENTE_PADRAO;
+
+}
+
+function obterFornecedorContrato(numeroContrato){
+
+    const contrato = contratos.find(function(c){
+        return c.numero === numeroContrato && pertenceUnidadeAtual(c);
+    });
+
+    return contrato ? normalizarContrato(contrato).fornecedor : FORNECEDOR_PADRAO;
 
 }
 
@@ -919,9 +934,49 @@ function atualizarTabelaMovimentacoes(){
         return;
     }
 
-    movimentacoesUnidade.slice().reverse().forEach(function(item){
+    movimentacoesUnidade.sort(function(a, b){
+        const diferencaData = String(b.mov.data || "").localeCompare(String(a.mov.data || ""));
+        return diferencaData || b.indice - a.indice;
+    }).forEach(function(item){
 
     const mov = item.mov;
+
+    if(movimentacaoEditando === item.indice){
+
+        const opcoesItens = obterItensUnidade().map(function(registro){
+            const selecionado = registro.descricao === mov.item ? " selected" : "";
+            return `<option value="${registro.descricao}"${selecionado}>${registro.descricao}</option>`;
+        }).join("");
+
+        tabela.innerHTML += `
+            <tr class="movimentacao-linha-editando">
+                <td><span class="contrato-tag">${mov.contrato}</span></td>
+                <td><input class="mov-editar-campo" type="date" id="editMovData" value="${mov.data}" onchange="atualizarMesMovimentacaoInline()"></td>
+                <td><span class="mov-mes-inline" id="editMovMes">${obterMes(mov.data)}</span></td>
+                <td><input class="mov-editar-campo" type="text" id="editMovNf" value="${mov.nf || ""}" maxlength="50"></td>
+                <td>
+                    <select class="mov-editar-campo" id="editMovItem" onchange="recalcularMovimentacaoInline()">
+                        ${opcoesItens}
+                    </select>
+                </td>
+                <td><input class="mov-editar-campo mov-editar-qtd" type="number" id="editMovQtd" min="1" value="${mov.quantidade}" oninput="recalcularMovimentacaoInline()"></td>
+                <td><strong class="mov-valor-inline" id="editMovValor">${formatarMoeda(mov.valorTotal)}</strong></td>
+                <td class="colAcoes">
+                    <div class="mov-acoes-inline">
+                        <button class="btnSalvarLinha" type="button" onclick="salvarEdicaoMovimentacao(${item.indice})" title="Salvar alterações">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                        <button class="btnCancelarLinha" type="button" onclick="cancelarEdicaoMovimentacao()" title="Cancelar edição">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
 
         tabela.innerHTML += `
             <tr>
@@ -932,7 +987,10 @@ function atualizarTabelaMovimentacoes(){
                 <td>${mov.item}</td>
                 <td>${mov.quantidade}</td>
                 <td>${formatarMoeda(mov.valorTotal)}</td>
-                <td>
+                <td class="colAcoes">
+                    <button class="btnEditar" onclick="editarMovimentacaoInline(${item.indice})" title="Editar movimentação">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
                     <button class="btnExcluir" onclick="excluirMovimentacao(${item.indice})">
                         <i class="fa-solid fa-trash"></i>
                     </button>
@@ -941,6 +999,96 @@ function atualizarTabelaMovimentacoes(){
         `;
 
     });
+
+}
+
+function editarMovimentacaoInline(indice){
+
+    movimentacaoEditando = indice;
+    atualizarTabelaMovimentacoes();
+
+    setTimeout(function(){
+        document.getElementById("editMovData")?.focus();
+    }, 0);
+
+}
+
+function cancelarEdicaoMovimentacao(){
+
+    movimentacaoEditando = null;
+    atualizarTabelaMovimentacoes();
+
+}
+
+function atualizarMesMovimentacaoInline(){
+
+    const data = document.getElementById("editMovData")?.value;
+    const mes = document.getElementById("editMovMes");
+
+    if(data && mes){
+        mes.textContent = obterMes(data);
+    }
+
+}
+
+function obterCalculoMovimentacaoInline(){
+
+    const item = document.getElementById("editMovItem")?.value || "";
+    const quantidade = Number(document.getElementById("editMovQtd")?.value) || 0;
+    const itemSelecionado = obterItensUnidade().find(function(registro){
+        return registro.descricao === item;
+    });
+    const valorUnitario = itemSelecionado
+        ? converterMoedaParaNumero(itemSelecionado.valor)
+        : 0;
+
+    return {
+        item: item,
+        quantidade: quantidade,
+        valorUnitario: valorUnitario,
+        valorTotal: valorUnitario * quantidade
+    };
+
+}
+
+function recalcularMovimentacaoInline(){
+
+    const calculo = obterCalculoMovimentacaoInline();
+    const valor = document.getElementById("editMovValor");
+
+    if(valor){
+        valor.textContent = formatarMoeda(calculo.valorTotal);
+    }
+
+}
+
+function salvarEdicaoMovimentacao(indice){
+
+    const movimentacao = movimentacoes[indice];
+    const data = document.getElementById("editMovData")?.value || "";
+    const nf = document.getElementById("editMovNf")?.value.trim() || "";
+    const calculo = obterCalculoMovimentacaoInline();
+
+    if(!movimentacao || !data || !nf || !calculo.item || calculo.quantidade <= 0){
+        mostrarToast("Preencha Data, NF, Item e Quantidade.", "erro");
+        return;
+    }
+
+    movimentacoes[indice] = {
+        ...movimentacao,
+        data: data,
+        mes: obterMes(data),
+        nf: nf,
+        item: calculo.item,
+        quantidade: calculo.quantidade,
+        valorUnitario: calculo.valorUnitario,
+        valorTotal: calculo.valorTotal
+    };
+
+    movimentacaoEditando = null;
+    salvarDados();
+    atualizarTabelaMovimentacoes();
+    mostrarToast("Movimentação atualizada com sucesso!", "sucesso");
 
 }
 
@@ -971,8 +1119,8 @@ function limparFormularioMovimentacao(){
     document.getElementById("movNf").value = "";
     document.getElementById("movItem").value = "";
     document.getElementById("movQtd").value = "";
-    document.getElementById("movValorUnit").value = "";
-    document.getElementById("movValorTotal").value = "";
+    document.getElementById("movValorUnit").value = formatarMoeda(0);
+    document.getElementById("movValorTotal").value = formatarMoeda(0);
 
     preencherDataHoje();
 
@@ -992,6 +1140,18 @@ function formatarData(data){
     const partes = data.split("-");
 
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+}
+
+function ordenarMovimentacoesPorData(lista){
+
+    return lista
+        .map(function(mov, indice){ return { mov: mov, indice: indice }; })
+        .sort(function(a, b){
+            const diferencaData = String(b.mov.data || "").localeCompare(String(a.mov.data || ""));
+            return diferencaData || b.indice - a.indice;
+        })
+        .map(function(item){ return item.mov; });
 
 }
 
@@ -1115,8 +1275,8 @@ function limparFormularioMovimentacao(){
     document.getElementById("movNf").value = "";
     document.getElementById("movItem").value = "";
     document.getElementById("movQtd").value = "";
-    document.getElementById("movValorUnit").value = "";
-    document.getElementById("movValorTotal").value = "";
+    document.getElementById("movValorUnit").value = formatarMoeda(0);
+    document.getElementById("movValorTotal").value = formatarMoeda(0);
 
     preencherDataHoje();
 
@@ -1205,8 +1365,10 @@ function atualizarDashboard(){
     const elOrcamento = document.getElementById("dashOrcamento");
     const elUtilizado = document.getElementById("dashUtilizado");
     const elSaldo = document.getElementById("dashSaldo");
-    const barraUso = document.getElementById("barraUso");
-    const percentualUso = document.getElementById("percentualUso");
+    const percentualUtilizadoCard = document.getElementById("dashPercentualUtilizado");
+    const percentualSaldoCard = document.getElementById("dashPercentualSaldo");
+    const barraUtilizadoCard = document.getElementById("dashBarraUtilizado");
+    const barraSaldoCard = document.getElementById("dashBarraSaldo");
     const tabela = document.getElementById("dashUltimasMov");
 
     if(!elContrato) return;
@@ -1220,8 +1382,10 @@ function atualizarDashboard(){
         elOrcamento.textContent = formatarMoeda(0);
         elUtilizado.textContent = formatarMoeda(0);
         elSaldo.textContent = formatarMoeda(0);
-        barraUso.style.width = "0%";
-        percentualUso.textContent = "0% utilizado";
+        percentualUtilizadoCard.textContent = "0%";
+        percentualSaldoCard.textContent = "0%";
+        barraUtilizadoCard.style.width = "0%";
+        barraSaldoCard.style.width = "0%";
         atualizarTopItens([]);
         const status = document.querySelector(".card-contrato .statusAtivo");
 
@@ -1269,6 +1433,7 @@ function atualizarDashboard(){
     const percentual = orcamento > 0
         ? Math.min((utilizado / orcamento) * 100, 100)
         : 0;
+    const percentualSaldo = orcamento > 0 ? Math.max(100 - percentual, 0) : 0;
 
     const dadosContrato = normalizarContrato(contratoAtivo);
 
@@ -1289,6 +1454,10 @@ function atualizarDashboard(){
     elOrcamento.textContent = formatarMoeda(orcamento);
     elUtilizado.textContent = formatarMoeda(utilizado);
     elSaldo.textContent = formatarMoeda(saldo);
+    percentualUtilizadoCard.textContent = percentual.toFixed(1) + "%";
+    percentualSaldoCard.textContent = percentualSaldo.toFixed(1) + "%";
+    barraUtilizadoCard.style.width = percentual + "%";
+    barraSaldoCard.style.width = percentualSaldo + "%";
 
     document.getElementById("dashConsumoMes").textContent = formatarMoeda(consumoMes);
     document.getElementById("dashQtdMovimentada").textContent = qtdMovimentada;
@@ -1302,31 +1471,7 @@ function atualizarDashboard(){
     });
     document.getElementById("graficoAnoReferencia").textContent = `Hist\u00f3rico consolidado de ${anoAtual}`;
 
-    barraUso.style.width = percentual + "%";
-    barraUso.classList.remove(
-    "barraNormal",
-    "barraAlerta",
-    "barraCritica"
-);
-
-if(percentual >= 90){
-
-    barraUso.classList.add("barraCritica");
-
-}else if(percentual >= 70){
-
-    barraUso.classList.add("barraAlerta");
-
-}else{
-
-    barraUso.classList.add("barraNormal");
-
-}
-    percentualUso.textContent = percentual.toFixed(1) + "% utilizado";
-
-    const ultimas = movimentacoesAno
-        .slice(-5)
-        .reverse();
+    const ultimas = ordenarMovimentacoesPorData(movimentacoesAno).slice(0, 5);
 
     tabela.innerHTML = "";
 
@@ -1577,6 +1722,14 @@ function atualizarGraficoMensal(){
 
         responsive:true,
         maintainAspectRatio:false,
+        layout:{
+            padding:{
+                top:32,
+                right:10,
+                bottom:0,
+                left:10
+            }
+        },
 
         plugins:{
 
@@ -1639,6 +1792,7 @@ function atualizarGraficoMensal(){
                 display:false,
                 beginAtZero:true,
                 stacked:true,
+                grace:"18%",
                 grid:{
                     display:false
                 }
@@ -1956,11 +2110,13 @@ function carregarFiltrosRelatorio(){
 
     const selectContrato = document.getElementById("relContrato");
     const selectItem = document.getElementById("relItem");
+    const selectFornecedor = document.getElementById("relFornecedor");
 
-    if(!selectContrato || !selectItem) return;
+    if(!selectContrato || !selectItem || !selectFornecedor) return;
 
     selectContrato.innerHTML = `<option value="">Todos</option>`;
     selectItem.innerHTML = `<option value="">Todos</option>`;
+    selectFornecedor.innerHTML = `<option value="">Todos</option>`;
 
     obterContratosUnidade().forEach(function(contrato){
 
@@ -1982,6 +2138,18 @@ function carregarFiltrosRelatorio(){
 
     });
 
+    const fornecedores = new Set(
+        obterContratosUnidade().map(function(contrato){
+            return normalizarContrato(contrato).fornecedor;
+        })
+    );
+
+    Array.from(fornecedores).sort().forEach(function(fornecedor){
+        selectFornecedor.innerHTML += `
+            <option value="${fornecedor}">${fornecedor}</option>
+        `;
+    });
+
 }
 
 function gerarRelatorio(){
@@ -1990,6 +2158,7 @@ function gerarRelatorio(){
     const dataFim = document.getElementById("relDataFim").value;
     const contrato = document.getElementById("relContrato").value;
     const item = document.getElementById("relItem").value;
+    const fornecedor = document.getElementById("relFornecedor").value;
 
     let resultado = obterMovimentacoesUnidade().slice();
 
@@ -2024,6 +2193,16 @@ function gerarRelatorio(){
         });
 
     }
+
+    if(fornecedor !== ""){
+
+        resultado = resultado.filter(function(mov){
+            return obterFornecedorContrato(mov.contrato) === fornecedor;
+        });
+
+    }
+
+    resultado = ordenarMovimentacoesPorData(resultado);
 
     atualizarResumoRelatorio(resultado);
 
@@ -2064,7 +2243,7 @@ function atualizarTabelaRelatorio(lista){
 
         tabela.innerHTML = `
             <tr>
-                <td colspan="7" style="text-align:center;color:#888">
+                <td colspan="8" style="text-align:center;color:#888">
                     Nenhum resultado encontrado.
                 </td>
             </tr>
@@ -2074,15 +2253,17 @@ function atualizarTabelaRelatorio(lista){
 
     }
 
-    lista.reverse().forEach(function(mov){
+    lista.forEach(function(mov){
 
         const cliente = obterClienteContrato(mov.contrato);
+        const fornecedor = obterFornecedorContrato(mov.contrato);
 
         tabela.innerHTML += `
             <tr>
                 <td>${formatarData(mov.data)}</td>
                 <td>${mov.contrato}</td>
                 <td class="contrato-cliente">${cliente}</td>
+                <td>${fornecedor}</td>
                 <td>${mov.nf || "-"}</td>
                 <td>${mov.item}</td>
                 <td>${mov.quantidade}</td>
@@ -2212,6 +2393,7 @@ function exportarExcel(){
             "Data": formatarData(mov.data),
             "Contrato": mov.contrato,
             "Cliente": obterClienteContrato(mov.contrato),
+            "Fornecedor": obterFornecedorContrato(mov.contrato),
             "NF": mov.nf || "",
             "Item": mov.item,
             "Quantidade": Number(mov.quantidade),
@@ -2227,6 +2409,7 @@ function exportarExcel(){
         { wch: 14 },
         { wch: 16 },
         { wch: 22 },
+        { wch: 22 },
         { wch: 18 },
         { wch: 30 },
         { wch: 14 },
@@ -2238,8 +2421,8 @@ function exportarExcel(){
 
     for(let linha = 1; linha <= intervalo.e.r; linha++){
 
-        const celValorUnit = XLSX.utils.encode_cell({ r: linha, c: 6 });
-        const celValorTotal = XLSX.utils.encode_cell({ r: linha, c: 7 });
+        const celValorUnit = XLSX.utils.encode_cell({ r: linha, c: 7 });
+        const celValorTotal = XLSX.utils.encode_cell({ r: linha, c: 8 });
 
         if(planilha[celValorUnit]){
             planilha[celValorUnit].z = '"R$" #,##0.00';
