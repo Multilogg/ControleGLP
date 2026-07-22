@@ -369,6 +369,7 @@ let itens = [];
 let movimentacaoEditando = null;
 let graficoMensal = null;
 let ultimoRelatorio = [];
+const CLIENTE_PADRAO = "Clia Campinas";
 
 inicializarApp();
 
@@ -376,7 +377,7 @@ function normalizarContrato(contrato){
 
     return {
         ...contrato,
-        cliente: contrato.cliente || "TRAZGAZ",
+        cliente: CLIENTE_PADRAO,
         fornecedor: contrato.fornecedor || "Ultragas",
         unidade: contrato.unidade || obterUnidadeAtual() || ""
     };
@@ -389,7 +390,7 @@ function obterClienteContrato(numeroContrato){
         return c.numero === numeroContrato && pertenceUnidadeAtual(c);
     });
 
-    return contrato ? normalizarContrato(contrato).cliente : "TRAZGAZ";
+    return contrato ? normalizarContrato(contrato).cliente : CLIENTE_PADRAO;
 
 }
 
@@ -469,12 +470,11 @@ function salvarContrato(){
 
     const numero = document.getElementById("txtContrato").value.trim();
     const valor = document.getElementById("txtValor").value.trim();
-    const cliente = document.getElementById("txtCliente").value.trim();
     const fornecedor = document.getElementById("txtFornecedor").value.trim();
     const inicio = document.getElementById("txtInicio").value;
     const fim = document.getElementById("txtFim").value;
 
-    if(numero === "" || valor === "" || cliente === "" || fornecedor === "" || inicio === "" || fim === ""){
+    if(numero === "" || valor === "" || fornecedor === "" || inicio === "" || fim === ""){
         mostrarToast("Preencha todos os campos!", "erro");
         return;
     }
@@ -496,7 +496,7 @@ function salvarContrato(){
 
     const contrato = {
         numero: numero,
-        cliente: cliente,
+        cliente: CLIENTE_PADRAO,
         fornecedor: fornecedor,
         unidade: obterUnidadeAtual(),
         valor: valor,
@@ -709,7 +709,6 @@ function editarContrato(indice){
 
     document.getElementById("txtContrato").value = contrato.numero;
     document.getElementById("txtValor").value = contrato.valor;
-    document.getElementById("txtCliente").value = contrato.cliente;
     document.getElementById("txtFornecedor").value = contrato.fornecedor;
     document.getElementById("txtInicio").value = contrato.inicio;
     document.getElementById("txtFim").value = contrato.fim;
@@ -742,7 +741,6 @@ function limparFormulario(){
 
     document.getElementById("txtContrato").value = "";
     document.getElementById("txtValor").value = "";
-    document.getElementById("txtCliente").value = "";
     document.getElementById("txtFornecedor").value = "";
     document.getElementById("txtInicio").value = "";
     document.getElementById("txtFim").value = "";
