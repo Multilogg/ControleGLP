@@ -4239,3 +4239,252 @@ body.confirmacao-aberta{
     border-color:#B91C1C;
     background:#B91C1C;
 }
+
+/* Responsividade global para notebooks, tablets e celulares */
+html,
+body{
+    width:100%;
+    max-width:100%;
+}
+
+main,
+main > *,
+.card,
+.card-form,
+.card-contrato,
+.card-indicador,
+.grafico-card,
+.campo{
+    min-width:0;
+    max-width:100%;
+}
+
+.card h2,
+.card-contrato h2,
+.card-indicador strong,
+.instrucao-metrica strong,
+.instrucao-resumo-operacao strong{
+    max-width:100%;
+    font-size:clamp(1.3rem,2.15vw,2.125rem);
+    line-height:1.15;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+    font-variant-numeric:tabular-nums;
+}
+
+.tabela-responsiva{
+    width:100%;
+    max-width:100%;
+    margin-top:0;
+    overflow-x:auto;
+    overflow-y:hidden;
+    border-radius:var(--radius);
+    box-shadow:var(--sombra-leve);
+    scrollbar-width:thin;
+    scrollbar-color:#9CB6D2 #EEF3F8;
+    -webkit-overflow-scrolling:touch;
+}
+
+.tabela-responsiva:focus{
+    outline:3px solid rgba(23,94,168,.18);
+    outline-offset:2px;
+}
+
+.tabela-responsiva table{
+    min-width:760px;
+    margin:0;
+    border-radius:0;
+    box-shadow:none;
+    overflow:visible;
+}
+
+.tabela-responsiva th,
+.tabela-responsiva td{
+    padding:clamp(10px,1.15vw,18px);
+    white-space:nowrap;
+}
+
+input,
+select,
+textarea,
+button{
+    max-width:100%;
+}
+
+@media (max-width:1440px){
+    main{
+        padding:24px 26px 38px;
+    }
+
+    .painel-operacional,
+    .dashboard-graficos,
+    .consumo-geral-layout{
+        gap:16px;
+    }
+
+    .card,
+    .card-form,
+    .card-contrato,
+    .card-indicador,
+    .grafico-card{
+        padding:clamp(18px,1.7vw,26px);
+    }
+
+    .cards,
+    .indicadores{
+        gap:14px;
+    }
+}
+
+@media (max-width:1180px){
+    .cards,
+    .indicadores,
+    .resumo-relatorio,
+    .instrucao-metricas,
+    .instrucao-kpi-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .painel-operacional,
+    .dashboard-graficos,
+    .consumo-geral-layout,
+    .contrato-relacionamento,
+    .instrucao-dashboard-topo,
+    .instrucao-dashboard-grid,
+    .instrucao-workspace{
+        grid-template-columns:1fr;
+    }
+
+    .top-itens-painel{
+        min-height:auto;
+        padding:20px 0 0;
+        border-left:0;
+        border-top:1px solid var(--borda-suave);
+    }
+}
+
+@media (max-width:900px){
+    body{
+        overflow:auto;
+    }
+
+    .container{
+        height:auto;
+        min-height:100vh;
+    }
+
+    main{
+        overflow:visible;
+        padding:20px 16px 32px;
+    }
+
+    header{
+        padding:14px 16px;
+    }
+
+    .ambiente-sistema,
+    .usuario{
+        height:auto;
+        min-height:36px;
+        padding:8px 11px;
+        white-space:normal;
+    }
+
+    .linha,
+    .item-formulario,
+    .card-itens-form .linha{
+        grid-template-columns:1fr;
+    }
+
+    .formulario-recolhivel.aberto .form-conteudo{
+        max-height:none;
+    }
+}
+
+@media (max-width:640px){
+    .cards,
+    .indicadores,
+    .resumo-relatorio,
+    .instrucao-metricas,
+    .instrucao-kpi-grid,
+    .unidades-grid{
+        grid-template-columns:1fr;
+    }
+
+    .header-acoes,
+    .grafico-titulo-linha,
+    .barra-topo,
+    .form-toggle-bar,
+    .instrucao-topo,
+    .instrucao-card-topo{
+        align-items:flex-start;
+        flex-wrap:wrap;
+    }
+
+    .marca{
+        min-width:0;
+    }
+
+    .logo{
+        font-size:16px;
+    }
+
+    main h1,
+    .instrucao-titulo h1,
+    .instrucao-dashboard-topo h1{
+        font-size:clamp(1.25rem,7vw,1.65rem);
+        overflow-wrap:anywhere;
+    }
+
+    .card,
+    .card-form,
+    .card-contrato,
+    .card-indicador,
+    .grafico-card{
+        padding:18px;
+    }
+
+    .form-conteudo,
+    .formulario-recolhivel.aberto .form-conteudo{
+        padding-left:16px;
+        padding-right:16px;
+    }
+
+    .tabela-responsiva table{
+        min-width:680px;
+    }
+
+    .instrucao-tabela{
+        min-width:720px !important;
+    }
+}
+
+@media (max-width:420px){
+    main{
+        padding:16px 12px 28px;
+    }
+
+    header{
+        padding:12px;
+    }
+
+    .header-acoes{
+        gap:8px;
+    }
+
+    .ambiente-sistema,
+    .usuario{
+        width:100%;
+        justify-content:flex-start;
+    }
+
+    aside{
+        padding:10px 12px;
+    }
+
+    aside button{
+        width:48px;
+        height:48px;
+        flex:0 0 48px;
+    }
+}

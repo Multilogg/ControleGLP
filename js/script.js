@@ -275,6 +275,25 @@ function alternarFormularioCadastro(idFormulario){
 
 }
 
+function prepararTabelasResponsivas(raiz = document){
+
+    raiz.querySelectorAll("table:not(.instrucao-tabela)").forEach(tabela => {
+
+        if(tabela.parentElement?.classList.contains("tabela-responsiva")) return;
+
+        const contenedor = document.createElement("div");
+        contenedor.className = "tabela-responsiva";
+        contenedor.setAttribute("role", "region");
+        contenedor.setAttribute("aria-label", "Tabela com rolagem horizontal");
+        contenedor.tabIndex = 0;
+
+        tabela.parentNode.insertBefore(contenedor, tabela);
+        contenedor.appendChild(tabela);
+
+    });
+
+}
+
 function carregarPagina(pagina){
 
     atualizarIdentidadeTopo(pagina);
@@ -284,7 +303,9 @@ function carregarPagina(pagina){
         .then(resposta => resposta.text())
         .then(html => {
 
-            document.getElementById("conteudo").innerHTML = html;
+            const conteudo = document.getElementById("conteudo");
+            conteudo.innerHTML = html;
+            prepararTabelasResponsivas(conteudo);
             marcarMenuAtivo(pagina);
 
             if(pagina === "inicio"){
