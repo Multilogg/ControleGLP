@@ -1,0 +1,116 @@
+<h1>
+    <i class="fa-solid fa-chart-column"></i>
+    Relat&oacute;rios
+</h1>
+
+<p class="subtitulo">
+    Filtre movimenta&ccedil;&otilde;es e exporte os dados para an&aacute;lise.
+</p>
+
+<div class="card-form">
+
+    <div class="linha">
+
+        <div class="campo">
+            <label>Data Inicial</label>
+            <input type="date" id="relDataInicio">
+        </div>
+
+        <div class="campo">
+            <label>Data Final</label>
+            <input type="date" id="relDataFim">
+        </div>
+
+    </div>
+
+    <div class="linha">
+
+        <div class="campo">
+            <label>Contrato</label>
+            <select id="relContrato">
+                <option value="">Todos</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label>Item</label>
+            <select id="relItem">
+                <option value="">Todos</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="acoesFormulario">
+        <button class="btnSalvar" id="btnGerarRelatorio">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Gerar Relat&oacute;rio
+        </button>
+
+        <button class="btnSalvar" id="btnExportarExcel">
+            <i class="fa-solid fa-file-excel"></i>
+            Exportar Excel
+        </button>
+    </div>
+
+</div>
+
+<div class="cards resumo-relatorio">
+
+    <div class="card">
+        <div class="card-metrica-topo">
+            <h3>Total Consumido</h3>
+            <i class="fa-solid fa-wallet"></i>
+        </div>
+        <h2 id="relTotal">R$ 0,00</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-metrica-topo">
+            <h3>Movimenta&ccedil;&otilde;es</h3>
+            <i class="fa-solid fa-right-left"></i>
+        </div>
+        <h2 id="relQtdMov">0</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-metrica-topo">
+            <h3>Itens Diferentes</h3>
+            <i class="fa-solid fa-layer-group"></i>
+        </div>
+        <h2 id="relQtdItens">0</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-metrica-topo">
+            <h3>Quantidade Total</h3>
+            <i class="fa-solid fa-boxes-stacked"></i>
+        </div>
+        <h2 id="relQtdTotal">0</h2>
+    </div>
+
+</div>
+
+<h2 class="tituloTabela">Resultado do relat&oacute;rio</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Contrato</th>
+            <th>Cliente</th>
+            <th>NF</th>
+            <th>Item</th>
+            <th>Quantidade</th>
+            <th>Valor</th>
+        </tr>
+    </thead>
+
+    <tbody id="listaRelatorio">
+        <tr>
+            <td colspan="7" style="text-align:center;color:#888">
+                Gere um relat&oacute;rio para visualizar os dados.
+            </td>
+        </tr>
+    </tbody>
+</table>

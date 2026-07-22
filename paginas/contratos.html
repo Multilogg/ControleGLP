@@ -1,0 +1,97 @@
+<h1>
+    <i class="fa-solid fa-file-contract"></i>
+    Cadastro de Contratos
+</h1>
+
+<p class="subtitulo">
+    Cadastre, acompanhe e mantenha o contrato ativo da opera&ccedil;&atilde;o.
+</p>
+
+<div class="card-form formulario-recolhivel" id="formContrato">
+
+    <button class="form-toggle-bar" type="button" data-form-toggle="formContrato" aria-expanded="false">
+        <span>
+            <strong>Novo contrato</strong>
+            <small>Adicionar ou atualizar informa&ccedil;&otilde;es do contrato ativo.</small>
+        </span>
+
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <div class="form-conteudo">
+
+    <div class="linha">
+
+        <div class="campo">
+            <label>N&uacute;mero do Contrato</label>
+            <input type="text" id="txtContrato" placeholder="Ex.: 4600007570">
+        </div>
+
+        <div class="campo">
+            <label>Valor</label>
+            <input type="text" id="txtValor" placeholder="R$ 0,00">
+        </div>
+
+    </div>
+
+    <div class="linha">
+
+        <div class="campo">
+            <label>Cliente</label>
+            <input type="text" id="txtCliente" placeholder="Ex.: TRAZGAZ">
+        </div>
+
+        <div class="campo">
+            <label>Fornecedor</label>
+            <input type="text" id="txtFornecedor" placeholder="Ex.: Ultragas">
+        </div>
+
+    </div>
+
+    <div class="linha">
+
+        <div class="campo">
+            <label>In&iacute;cio</label>
+            <input type="date" id="txtInicio">
+        </div>
+
+        <div class="campo">
+            <label>T&eacute;rmino</label>
+            <input type="date" id="txtFim">
+        </div>
+
+    </div>
+
+    <button class="btnSalvar" id="btnSalvarContrato">
+        <i class="fa-solid fa-floppy-disk"></i>
+        Salvar Contrato
+    </button>
+
+    </div>
+
+</div>
+
+<h2 class="tituloTabela">Contratos cadastrados</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>N&ordm;</th>
+            <th>Cliente</th>
+            <th>Fornecedor</th>
+            <th>In&iacute;cio</th>
+            <th>T&eacute;rmino</th>
+            <th>Valor</th>
+            <th>Status</th>
+            <th class="colAcoes">A&ccedil;&otilde;es</th>
+        </tr>
+    </thead>
+
+    <tbody id="listaContratos">
+        <tr>
+            <td colspan="8" style="text-align:center;color:#888">
+                Nenhum contrato cadastrado.
+            </td>
+        </tr>
+    </tbody>
+</table>

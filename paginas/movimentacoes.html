@@ -1,0 +1,115 @@
+<h1>
+    <i class="fa-solid fa-gas-pump"></i>
+    Movimenta&ccedil;&otilde;es
+</h1>
+
+<p class="subtitulo">
+    Lance consumos vinculados ao contrato ativo e acompanhe o hist&oacute;rico da opera&ccedil;&atilde;o.
+</p>
+
+<div class="card-form formulario-recolhivel" id="formMovimentacao">
+
+    <button class="form-toggle-bar" type="button" data-form-toggle="formMovimentacao" aria-expanded="false">
+        <span>
+            <strong>Nova movimenta&ccedil;&atilde;o</strong>
+            <small>Registrar consumo vinculado ao contrato ativo.</small>
+        </span>
+
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <div class="form-conteudo">
+
+    <div class="linha">
+
+        <div class="contrato-operacao">
+            <div>
+                <span>Contrato Atual</span>
+                <strong id="movContratoAtual">Nenhum contrato ativo</strong>
+                <p id="movContratoVigencia">-</p>
+                <div class="contrato-mini-relacionamento">
+                    <small id="movContratoCliente">Cliente: TRAZGAZ</small>
+                    <small id="movContratoFornecedor">Fornecedor: Ultragas</small>
+                </div>
+            </div>
+
+            <span id="movContratoStatus" class="statusSemContrato">
+                Sem contrato
+            </span>
+        </div>
+
+        <div class="campo">
+            <label>Data</label>
+            <input type="date" id="movData">
+        </div>
+
+    </div>
+
+    <div class="linha">
+
+        <div class="campo">
+            <label>Nota Fiscal (NF)</label>
+            <input type="text" id="movNf" placeholder="Informe o n&uacute;mero da NF" maxlength="50">
+        </div>
+
+        <div class="campo">
+            <label>Item</label>
+            <select id="movItem">
+                <option value="">Selecione...</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label>Quantidade</label>
+            <input type="text" id="movQtd" placeholder="0">
+        </div>
+
+    </div>
+
+    <div class="linha">
+
+        <div class="campo">
+            <label>Valor Unit&aacute;rio</label>
+            <input type="text" id="movValorUnit" disabled>
+        </div>
+
+        <div class="campo">
+            <label>Valor Total</label>
+            <input type="text" id="movValorTotal" disabled>
+        </div>
+
+    </div>
+
+    <button class="btnSalvar" id="btnSalvarMovimentacao">
+        <i class="fa-solid fa-floppy-disk"></i>
+        Salvar Movimenta&ccedil;&atilde;o
+    </button>
+
+    </div>
+
+</div>
+
+<h2 class="tituloTabela">Hist&oacute;rico de Movimenta&ccedil;&otilde;es</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Contrato</th>
+            <th>Data</th>
+            <th>M&ecirc;s</th>
+            <th>NF</th>
+            <th>Item</th>
+            <th>Quantidade</th>
+            <th>Valor</th>
+            <th class="colAcoes">A&ccedil;&otilde;es</th>
+        </tr>
+    </thead>
+
+    <tbody id="listaMovimentacoes">
+        <tr>
+            <td colspan="8" style="text-align:center;color:#888">
+                Nenhuma movimenta&ccedil;&atilde;o cadastrada.
+            </td>
+        </tr>
+    </tbody>
+</table>

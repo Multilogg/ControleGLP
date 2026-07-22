@@ -1,0 +1,150 @@
+<h1>
+    <i class="fa-solid fa-gauge-high"></i>
+    Painel Operacional
+</h1>
+
+<p class="subtitulo">
+    Vis&atilde;o executiva do contrato ativo, consumo e movimenta&ccedil;&otilde;es de GLP.
+</p>
+
+<section class="painel-operacional">
+
+    <div class="card-contrato">
+
+        <div class="card-titulo">
+            <i class="fa-solid fa-file-contract"></i>
+            Contrato Ativo
+        </div>
+
+        <h2 id="painelContrato">Nenhum contrato ativo</h2>
+
+        <p id="painelVigencia">-</p>
+
+        <div class="contrato-relacionamento">
+            <div>
+                <span>Cliente:</span>
+                <strong id="painelCliente">TRAZGAZ</strong>
+            </div>
+
+            <div>
+                <span>Fornecedor:</span>
+                <strong id="painelFornecedor">Ultragas</strong>
+            </div>
+        </div>
+
+        <span class="statusAtivo">Ativo</span>
+
+    </div>
+
+    <div class="indicadores">
+
+        <div class="card-indicador">
+            <span>Or&ccedil;amento</span>
+            <strong id="dashOrcamento">R$ 0,00</strong>
+        </div>
+
+        <div class="card-indicador">
+            <span>Utilizado</span>
+            <strong id="dashUtilizado">R$ 0,00</strong>
+        </div>
+
+        <div class="card-indicador">
+            <span>Saldo</span>
+            <strong id="dashSaldo">R$ 0,00</strong>
+        </div>
+
+    </div>
+
+</section>
+
+<div class="cards cards-secundarios">
+
+    <div class="card">
+        <div class="card-metrica-topo">
+            <h3>Consumo do M&ecirc;s <small class="dashMesReferencia"></small></h3>
+            <i class="fa-solid fa-calendar-days"></i>
+        </div>
+        <h2 id="dashConsumoMes">R$ 0,00</h2>
+        <div class="metricas-por-contrato" id="dashConsumoPorContrato"></div>
+    </div>
+
+    <div class="card">
+        <div class="card-metrica-topo">
+            <h3>Quantidade Movimentada <small class="dashMesReferencia"></small></h3>
+            <i class="fa-solid fa-boxes-stacked"></i>
+        </div>
+        <h2 id="dashQtdMovimentada">0</h2>
+        <div class="metricas-por-contrato" id="dashQuantidadePorContrato"></div>
+    </div>
+
+    <div class="card">
+        <div class="card-metrica-topo">
+            <h3>Total de Movimenta&ccedil;&otilde;es <small class="dashMesReferencia"></small></h3>
+            <i class="fa-solid fa-right-left"></i>
+        </div>
+        <h2 id="dashTotalMovimentacoes">0</h2>
+        <div class="metricas-por-contrato" id="dashMovimentacoesPorContrato"></div>
+    </div>
+
+</div>
+
+<div class="card-barra">
+
+    <div class="barra-topo">
+        <strong>Utiliza&ccedil;&atilde;o do contrato</strong>
+        <span id="percentualUso">0% utilizado</span>
+    </div>
+
+    <div class="barra">
+        <div id="barraUso"></div>
+    </div>
+
+</div>
+
+<div class="card grafico-largo">
+
+    <div class="grafico-titulo-linha">
+        <div>
+            <h3>Consumo Anual por Contrato</h3>
+            <small id="graficoAnoReferencia">Hist&oacute;rico consolidado do ano</small>
+        </div>
+        <span class="grafico-legenda-ajuda"><i class="fa-solid fa-layer-group"></i> Cores por contrato</span>
+    </div>
+
+    <div class="consumo-geral-layout">
+
+        <div class="grafico-container-largo">
+            <canvas id="graficoMensal"></canvas>
+        </div>
+
+        <div class="top-itens-painel">
+            <div class="top-itens-cabecalho">
+                <span>Top Itens</span>
+                <i class="fa-solid fa-ranking-star"></i>
+            </div>
+
+            <div id="listaTopItens" class="top-itens-lista">
+                <div class="top-itens-vazio">Nenhum consumo registrado.</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<h2 class="tituloTabela">&Uacute;ltimas movimenta&ccedil;&otilde;es do ano</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Contrato</th>
+            <th>NF</th>
+            <th>Item</th>
+            <th>Qtd</th>
+            <th>Valor</th>
+        </tr>
+    </thead>
+
+    <tbody id="dashUltimasMov"></tbody>
+</table>

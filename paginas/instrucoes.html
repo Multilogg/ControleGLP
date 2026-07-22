@@ -1,0 +1,386 @@
+<section class="instrucao-modulo instrucao-redesign">
+
+    <section class="instrucao-pagina ativo" id="instrucaoPainel">
+        <div class="instrucao-dashboard-topo">
+            <div>
+                <span class="instrucao-eyebrow">Torre de controle</span>
+                <h1>Controle de Instru&ccedil;&otilde;es</h1>
+                <p>Monitore a fila de solicita&ccedil;&otilde;es, retornos por e-mail e cadastros localizados no BIM.</p>
+            </div>
+
+            <div class="instrucao-resumo-operacao">
+                <span>Tempo m&eacute;dio de resposta</span>
+                <strong id="instrucaoTempoMedio">00:00:00</strong>
+                <small id="instrucaoTaxaBim">0% com BIM</small>
+            </div>
+        </div>
+
+        <div class="instrucao-kpi-grid">
+            <article class="instrucao-metrica azul">
+                <span>Total solicitado</span>
+                <strong id="instrucaoTotal">0</strong>
+                <small>instru&ccedil;&otilde;es registradas</small>
+            </article>
+
+            <article class="instrucao-metrica cinza">
+                <span>Aguardando</span>
+                <strong id="instrucaoPendentes">0</strong>
+                <small>sem e-mail ou BIM</small>
+            </article>
+
+            <article class="instrucao-metrica ciano">
+                <span>Respondidas</span>
+                <strong id="instrucaoEmails">0</strong>
+                <small>retorno por e-mail</small>
+            </article>
+
+            <article class="instrucao-metrica verde">
+                <span>Com instru&ccedil;&atilde;o/BIM</span>
+                <strong id="instrucaoBim">0</strong>
+                <small>localizado no TA ou BIM</small>
+            </article>
+
+            <article class="instrucao-metrica laranja">
+                <span>Cr&iacute;ticas</span>
+                <strong id="instrucaoCriticas">0</strong>
+                <small>terceiros acima de 1h</small>
+            </article>
+        </div>
+
+        <div class="instrucao-dashboard-grid">
+            <article class="instrucao-card instrucao-card-grafico">
+                <div class="instrucao-card-topo">
+                    <div>
+                        <span>vis&atilde;o executiva</span>
+                        <h2>Status das instru&ccedil;&otilde;es</h2>
+                    </div>
+                </div>
+
+                <div class="instrucao-grafico-area">
+                    <canvas id="instrucaoGraficoStatus"></canvas>
+                </div>
+            </article>
+
+            <article class="instrucao-card instrucao-card-alertas">
+                <div class="instrucao-card-topo">
+                    <div>
+                        <span>aten&ccedil;&atilde;o</span>
+                        <h2>Fila cr&iacute;tica</h2>
+                    </div>
+                </div>
+
+                <div class="instrucao-lista-critica" id="instrucaoListaCritica">
+                    <div class="instrucao-vazio">Nenhuma solicita&ccedil;&atilde;o cr&iacute;tica.</div>
+                </div>
+            </article>
+        </div>
+
+        <article class="instrucao-card">
+            <div class="instrucao-card-topo">
+                <div>
+                    <span>acompanhamento</span>
+                    <h2>Solicita&ccedil;&otilde;es recentes</h2>
+                </div>
+
+                <button class="instrucao-btn instrucao-btn-secundario" type="button" data-instrucao-atalho="historico">
+                    Ver hist&oacute;rico
+                </button>
+            </div>
+
+            <div class="instrucao-tabela-wrap compacta">
+                <table class="instrucao-tabela">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Cliente</th>
+                            <th>Status</th>
+                            <th>Tempo</th>
+                            <th>A&ccedil;&otilde;es</th>
+                        </tr>
+                    </thead>
+                    <tbody id="instrucaoRecentes"></tbody>
+                </table>
+
+                <div class="instrucao-vazio" id="instrucaoRecentesVazio">Nenhuma solicita&ccedil;&atilde;o registrada.</div>
+            </div>
+        </article>
+    </section>
+
+    <section class="instrucao-pagina" id="instrucaoSolicitar">
+        <div class="instrucao-workspace">
+            <article class="instrucao-card instrucao-card-solicitacao">
+                <div class="instrucao-card-topo">
+                    <div>
+                        <span>nova solicita&ccedil;&atilde;o</span>
+                        <h2>Solicitar instru&ccedil;&atilde;o e iniciar transporte</h2>
+                    </div>
+                </div>
+
+                <form id="instrucaoFormulario" class="instrucao-form">
+                    <div class="instrucao-form-linha">
+                        <label>
+                            <span id="instrucaoDocumentoLabel">DTA</span>
+
+                            <div class="instrucao-documento-campo">
+                                <div class="instrucao-documento-tabs" aria-label="Tipo de documento">
+                                    <button class="ativo" type="button" data-instrucao-documento="DTA">DTA</button>
+                                    <button type="button" data-instrucao-documento="NF">NF</button>
+                                </div>
+
+                                <input id="instrucaoDta" required inputmode="numeric" maxlength="11" placeholder="00/000000-0">
+                            </div>
+                        </label>
+
+                        <label>
+                            Cliente
+                            <input id="instrucaoCliente" required placeholder="Nome do cliente">
+                        </label>
+                    </div>
+
+                    <label>
+                        Transportadora
+                        <input id="instrucaoTransportadora" placeholder="Nome da transportadora">
+                    </label>
+
+                    <div class="instrucao-form-linha">
+                        <label>
+                            Unidade operacional
+                            <select id="instrucaoUnidade" required>
+                                <option value="">Selecione...</option>
+                                <option value="Campinas">Campinas</option>
+                                <option value="Mocca">Mocca</option>
+                                <option value="Barueri">Barueri</option>
+                                <option value="Joinvile">Joinvile</option>
+                                <option value="Santos">Santos</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            C&oacute;digo do transporte no SARA
+                            <input id="instrucaoTransporteSara" placeholder="Opcional para vincular a sincroniza&ccedil;&atilde;o">
+                        </label>
+                    </div>
+
+                    <div class="instrucao-campo">
+                        <span>Status do ve&iacute;culo</span>
+
+                        <div class="instrucao-segmentado">
+                            <button class="ativo" type="button" data-instrucao-veiculo="Em transito">Em tr&acirc;nsito</button>
+                            <button type="button" data-instrucao-veiculo="No recinto">No recinto</button>
+                            <button type="button" data-instrucao-veiculo="Carga armazenada">Armazenada</button>
+                        </div>
+                    </div>
+
+                    <div class="instrucao-campo">
+                        <span>Prioridade operacional</span>
+
+                        <div class="instrucao-segmentado">
+                            <button class="ativo" type="button" data-instrucao-prioridade="Normal">Normal</button>
+                            <button type="button" data-instrucao-prioridade="Alta">Alta</button>
+                            <button type="button" data-instrucao-prioridade="Critica">Cr&iacute;tica</button>
+                        </div>
+                    </div>
+
+                    <label>
+                        Observa&ccedil;&otilde;es para a automa&ccedil;&atilde;o
+                        <textarea id="instrucaoObservacoes" rows="3" placeholder="Informe detalhes relevantes para Opera&ccedil;&otilde;es, SARA, e-mail ou Teams"></textarea>
+                    </label>
+
+                    <button class="instrucao-btn instrucao-btn-primario largo" type="submit">
+                        <i class="fa-solid fa-route"></i>
+                        Registrar e preparar e-mail
+                    </button>
+                </form>
+            </article>
+
+            <aside class="instrucao-card instrucao-card-regras">
+                <div class="instrucao-card-topo">
+                    <div>
+                        <span>controle local</span>
+                        <h2>Fluxo de instru&ccedil;&atilde;o</h2>
+                    </div>
+                </div>
+
+                <div class="instrucao-regras-lista">
+                    <div>
+                        <i class="fa-solid fa-ban"></i>
+                        Bloqueia documento duplicado j&aacute; solicitado.
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-database"></i>
+                        Bloqueia DTA/NF j&aacute; localizado no BIM importado.
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-clock"></i>
+                        Conta o tempo de resposta em tempo real.
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-route"></i>
+                        Ao registrar, prepara a solicita&ccedil;&atilde;o e o e-mail de instru&ccedil;&atilde;o.
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-chart-line"></i>
+                        Os indicadores s&atilde;o atualizados com os registros locais e importa&ccedil;&otilde;es.
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <section class="instrucao-pagina" id="instrucaoBimPagina">
+        <div class="instrucao-workspace">
+            <article class="instrucao-card">
+                <div class="instrucao-card-topo">
+                    <div>
+                        <span>base BIM</span>
+                        <h2>Importar cadastros</h2>
+                    </div>
+                </div>
+
+                <div class="instrucao-dropzone" id="instrucaoDropzone">
+                    <input id="instrucaoCsv" type="file" accept=".csv,text/csv">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <strong>Selecionar CSV exportado</strong>
+                    <span id="instrucaoNomeArquivo">Nenhum arquivo selecionado</span>
+                </div>
+
+                <div class="instrucao-acoes-card">
+                    <button class="instrucao-btn instrucao-btn-primario" id="instrucaoImportarCsv" type="button">
+                        Importar CSV
+                    </button>
+                </div>
+            </article>
+
+            <article class="instrucao-card">
+                <div class="instrucao-card-topo">
+                    <div>
+                        <span>lista r&aacute;pida</span>
+                        <h2>Atualizar por colagem</h2>
+                    </div>
+                </div>
+
+                <div class="instrucao-area-colar">
+                    <label>
+                        DTAs ou conte&uacute;do copiado do BIM
+                        <textarea id="instrucaoTextoBim" placeholder="Cole aqui DTAs ou conte&uacute;do copiado do CSV"></textarea>
+                    </label>
+
+                    <button class="instrucao-btn instrucao-btn-secundario largo" id="instrucaoImportarTexto" type="button">
+                        Atualizar por lista
+                    </button>
+                </div>
+            </article>
+        </div>
+
+        <article class="instrucao-card">
+            <div class="instrucao-card-topo">
+                <div>
+                    <span>diagn&oacute;stico</span>
+                    <h2>&Uacute;ltima importa&ccedil;&atilde;o</h2>
+                </div>
+            </div>
+
+            <div class="instrucao-resultado" id="instrucaoResultadoImportacao">
+                Nenhuma importa&ccedil;&atilde;o realizada nesta sess&atilde;o.
+            </div>
+        </article>
+
+        <article class="instrucao-card">
+            <div class="instrucao-card-topo">
+                <div>
+                    <span>exporta&ccedil;&atilde;o TA</span>
+                    <h2>Importar tr&acirc;nsito aduaneiro</h2>
+                </div>
+            </div>
+
+            <div class="instrucao-dropzone" id="instrucaoTaDropzone">
+                <input id="instrucaoTaArquivo" type="file" accept=".xlsx,.xls,.csv,text/csv">
+                <i class="fa-solid fa-file-import"></i>
+                <strong>Selecionar arquivo exportado do TA</strong>
+                <span id="instrucaoTaNomeArquivo">Nenhum arquivo selecionado</span>
+            </div>
+
+            <div class="instrucao-acoes-card">
+                <button class="instrucao-btn instrucao-btn-primario" id="instrucaoImportarTa" type="button">
+                    Importar TA para o site
+                </button>
+            </div>
+        </article>
+
+        <article class="instrucao-card">
+            <div class="instrucao-card-topo">
+                <div>
+                    <span>copiar do TA</span>
+                    <h2>Ler dados vis&iacute;veis do TA</h2>
+                </div>
+            </div>
+
+            <div class="instrucao-area-colar">
+                <label>
+                    Dados copiados da grade do TA
+                    <textarea id="instrucaoTextoTa" placeholder="No TA, selecione a grade, pressione Ctrl+C e clique em Ler &aacute;rea de transfer&ecirc;ncia do TA."></textarea>
+                </label>
+
+                <div class="instrucao-acoes-linha">
+                    <button class="instrucao-btn instrucao-btn-primario" id="instrucaoLerClipboardTa" type="button">
+                        Ler &aacute;rea de transfer&ecirc;ncia do TA
+                    </button>
+
+                    <button class="instrucao-btn instrucao-btn-secundario" id="instrucaoImportarTextoTa" type="button">
+                        Importar texto colado
+                    </button>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="instrucao-pagina" id="instrucaoHistorico">
+        <article class="instrucao-card">
+            <div class="instrucao-card-topo">
+                <div>
+                    <span>base completa</span>
+                    <h2>Hist&oacute;rico de instru&ccedil;&otilde;es</h2>
+                </div>
+
+                <div class="instrucao-historico-acoes">
+                    <div class="instrucao-filtros">
+                        <button class="ativo" type="button" data-instrucao-filtro="all">Todos</button>
+                        <button type="button" data-instrucao-filtro="pending">Pendentes</button>
+                        <button type="button" data-instrucao-filtro="email">E-mail</button>
+                        <button type="button" data-instrucao-filtro="bim">Com instru&ccedil;&atilde;o</button>
+                    </div>
+
+                    <button class="instrucao-btn instrucao-btn-secundario" id="instrucaoExportarRelatorio" type="button">
+                        <i class="fa-solid fa-file-export"></i>
+                        Exportar relat&oacute;rio
+                    </button>
+                </div>
+            </div>
+
+            <div class="instrucao-toolbar">
+                <input id="instrucaoPesquisa" placeholder="Pesquisar documento, cliente ou transportadora">
+            </div>
+
+            <div class="instrucao-tabela-wrap">
+                <table class="instrucao-tabela">
+                    <thead>
+                        <tr>
+                            <th>C&oacute;digo</th>
+                            <th>Documento</th>
+                            <th>Cliente</th>
+                            <th>Transportadora</th>
+                            <th>Ve&iacute;culo</th>
+                            <th>Solicitado</th>
+                            <th>Status final</th>
+                            <th>Tempo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="instrucaoHistoricoTabela"></tbody>
+                </table>
+
+                <div class="instrucao-vazio" id="instrucaoHistoricoVazio">Nenhuma instru&ccedil;&atilde;o solicitada.</div>
+            </div>
+        </article>
+    </section>
+
+</section>

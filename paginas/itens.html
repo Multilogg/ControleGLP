@@ -1,0 +1,74 @@
+<h1>
+    <i class="fa-solid fa-box"></i>
+    Cadastro de Itens
+</h1>
+
+<p class="subtitulo">
+    Configure os itens consumidos e seus valores unit&aacute;rios.
+</p>
+
+<div class="card-form card-itens-form formulario-recolhivel" id="formItem">
+
+    <button class="form-toggle-bar" type="button" data-form-toggle="formItem" aria-expanded="false">
+        <span>
+            <strong>Novo item</strong>
+            <small>Cadastrar item consumido e valor unit&aacute;rio.</small>
+        </span>
+
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <div class="form-conteudo">
+
+    <div class="item-formulario">
+
+        <div class="campo">
+            <label>Descri&ccedil;&atilde;o do Item</label>
+            <input type="text" id="txtItemDescricao" placeholder="Ex.: CILINDRO C/20KGS. GLP">
+        </div>
+
+        <div class="campo campo-menor">
+            <label>Valor Unit&aacute;rio</label>
+            <input type="text" id="txtItemValor" placeholder="R$ 0,00">
+        </div>
+
+        <div class="acoesFormulario item-acoes">
+
+            <button class="btnSalvar" id="btnSalvarItem">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Salvar Item
+            </button>
+
+            <button class="btnCancelar" id="btnCancelarItem" style="display:none;">
+                <i class="fa-solid fa-xmark"></i>
+                Cancelar
+            </button>
+
+        </div>
+
+    </div>
+
+    </div>
+
+</div>
+
+<h2 class="tituloTabela">Itens cadastrados</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Valor Unit&aacute;rio</th>
+            <th>Status</th>
+            <th class="colAcoes">A&ccedil;&otilde;es</th>
+        </tr>
+    </thead>
+
+    <tbody id="listaItens">
+        <tr>
+            <td colspan="4" style="text-align:center;color:#888">
+                Nenhum item cadastrado.
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Controle GLP</title>
+
+    <link rel="icon" type="image/svg+xml" href="imagens/favicon-glp.svg?v=4">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <div class="marca">
+            <div class="logo-simbolo">
+                <i id="iconeSistemaTopo" class="fa-solid fa-fire-flame-simple"></i>
+            </div>
+
+            <div>
+                <div class="logo">MULTILOG</div>
+                <span id="tituloSistemaTopo">Controle GLP</span>
+            </div>
+        </div>
+
+        <div class="header-acoes">
+            <div class="ambiente-sistema">
+                <i class="fa-solid fa-shield-halved"></i>
+                Gest&atilde;o de G&aacute;s
+            </div>
+
+            <div class="usuario unidade-topo">
+                <i class="fa-solid fa-location-dot"></i>
+                <span id="unidadeAtualTopo">Selecionar unidade</span>
+            </div>
+        </div>
+
+    </header>
+
+    <aside>
+
+        <button id="btnInicio" type="button">
+            <i class="fa-solid fa-gauge-high"></i>
+            <span>Painel Operacional</span>
+        </button>
+
+        <button id="btnContratos" type="button">
+            <i class="fa-solid fa-file-contract"></i>
+            <span>Contratos</span>
+        </button>
+
+        <button id="btnMovimentacoes" type="button">
+            <i class="fa-solid fa-gas-pump"></i>
+            <span>Movimenta&ccedil;&otilde;es</span>
+        </button>
+
+        <button id="btnItens" type="button">
+            <i class="fa-solid fa-box"></i>
+            <span>Itens</span>
+        </button>
+
+        <button id="btnRelatorios" type="button">
+            <i class="fa-solid fa-chart-column"></i>
+            <span>Relat&oacute;rios</span>
+        </button>
+
+    </aside>
+
+    <main id="conteudo"></main>
+
+</div>
+
+<div id="confirmacaoOverlay" class="instrucao-confirmacao-overlay" role="dialog" aria-modal="true" aria-labelledby="confirmacaoTitulo" aria-hidden="true">
+    <div class="instrucao-confirmacao">
+        <div class="instrucao-confirmacao-icone perigo">
+            <i class="fa-solid fa-trash-can"></i>
+        </div>
+        <div class="instrucao-confirmacao-conteudo">
+            <span>Confirma&ccedil;&atilde;o necess&aacute;ria</span>
+            <h2 id="confirmacaoTitulo">Excluir registro?</h2>
+            <p id="confirmacaoMensagem">Esta a&ccedil;&atilde;o n&atilde;o poder&aacute; ser desfeita.</p>
+            <div id="confirmacaoDetalhe" class="confirmacao-detalhe"></div>
+        </div>
+        <div class="instrucao-confirmacao-acoes">
+            <button id="btnConfirmacaoCancelar" class="instrucao-confirmacao-cancelar" type="button">Cancelar</button>
+            <button id="btnConfirmacaoExcluir" class="instrucao-confirmacao-confirmar perigo" type="button">
+                <i class="fa-solid fa-trash"></i> Excluir
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/script.js"></script>
+
+<div id="toastContainer"></div>
+
+</body>
+</html>
